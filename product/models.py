@@ -107,6 +107,10 @@ class Product(models.Model):
         verbose_name = _('product')
         verbose_name_plural = _('products')
 
+    def __str__(self):
+        return f"product: {self.name}"
+
+
 class ConsProperty(models.Model):
     product = models.ForeignKey(
         to=Product,
@@ -183,6 +187,9 @@ class Comment(models.Model):
         verbose_name = _('comment')
         verbose_name_plural = _('comments')
 
+    def __str__(self):
+        return f'comment : {self.text}'
+
 class Image(models.Model):
     product = models.ForeignKey(
         to=Product,
@@ -258,3 +265,6 @@ class Shop(models.Model):
     class Meta:
         verbose_name = 'shop'
         verbose_name_plural = 'shops'
+
+    def __str__(self):
+        return f'shop name is {self.name}'
