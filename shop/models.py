@@ -10,3 +10,9 @@ class SlideShow(models.Model):
     image = models.ImageField(
         upload_to='homepage/'
     )
+
+class BaseCategories(models.Model):
+    title = models.CharField(max_length=128)
+    image = models.ImageField(
+        upload_to='homepage/BaseCategories/'
+    )

@@ -6,7 +6,7 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'parent', 'image')
     search_fields = ('parent', 'name')
     list_filter = ('parent',)
-    list_display_links = ('parent',)
+    list_display_links = ('name', )
 
 @admin.register(Brand)
 class BrandAdmin(admin.ModelAdmin):

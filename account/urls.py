@@ -4,6 +4,8 @@ from django.urls import path
 from Shoppify import settings
 from .views import *
 
+app_name = 'account'
+
 urlpatterns = [
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
