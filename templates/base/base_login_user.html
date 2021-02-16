@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+    {% block css %}
+    {% endblock %}
+
+</head>
+<body>
+{% include 'base/login_header.html' %}
+{% block content %}
+{% endblock %}
+{% include 'base/footer.html' %}
+{% block js %}
+{% endblock %}
+</body>
+</html>
