@@ -69,11 +69,11 @@
         <section class="container">
             <div class="row py-5">
                 <div class="col-12 text-center">
-                    <h3>Base categories & more useful</h3>
+                    <h3>Summery of the things that we've got</h3>
                 </div>
-                {% for cate in categories %}
+                {% for cate in base_categories %}
                     <div class="col-lg-4 col-md-6 col-xs-12 py-5">
-                        <div class="card" style="width: 18rem; border-radius: 50%">
+                        <div class="card" style="width: 18rem;border-radius: 50%">
                             <a href="#">
                                 <img
                                         src="{{ cate.image.url }}"
@@ -82,9 +82,9 @@
                                 />
                             </a>
                             <div class="card-body">
-                                <p class="card-text text-center">
+                                <h4 class="card-text text-center px-4 pb-4">
                                     {{ cate.title }}
-                                </p>
+                                </h4>
                             </div>
                         </div>
                     </div>

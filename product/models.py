@@ -55,7 +55,8 @@ class Brand(models.Model):
 
     image = models.ImageField(
         upload_to="product/brand/",
-        null=True
+        null=True,
+        blank=True
     )
 
     class Meta:

@@ -15,5 +15,5 @@ class Home(TemplateView):
         kwargs['slid_show'] = SlideShow.objects.all()
         kwargs['categories'] = Category.objects.all()[0:9]
         kwargs['foods'] = Category.objects.filter(Q(parent__name__exact='foods&drink'))
-        print(kwargs)
+        kwargs['base_categories'] = BaseCategories.objects.all()
         return kwargs
