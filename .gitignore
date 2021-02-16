@@ -7,3 +7,4 @@ media/
 .idea/
 venv/
 Shoppify/__pycache__/
+db.sqlite3
