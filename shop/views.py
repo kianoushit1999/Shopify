@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import *
 from django.db.models import Q
-from product.models import Category
+from product.models import Category, Product
+
+
 # Create your views here.
 
 class Home(TemplateView):
@@ -16,4 +18,7 @@ class Home(TemplateView):
         kwargs['categories'] = Category.objects.all()[0:9]
         kwargs['foods'] = Category.objects.filter(Q(parent__name__exact='foods&drink'))
         kwargs['base_categories'] = BaseCategories.objects.all()
+        kwargs['sample_product'] = Product.objects.filter(Q(category__name__iexact='Health') |
+                                                          Q(category__name__iexact='cleaning') |
+                                                          Q(category__name__iexact='Fitness'))
         return kwargs

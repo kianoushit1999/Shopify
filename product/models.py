@@ -229,6 +229,10 @@ class ProductMeta(models.Model):
         decimal_places=3
     )
 
+    counter = models.IntegerField(
+        default=0
+    )
+
 class Like(models.Model):
     user = models.ForeignKey(
         to=User,
