@@ -46,3 +46,18 @@ table{
 li{
     list-style: none;
 }
+
+textarea{
+    border: 0px;
+    outline: 0px;
+    resize: none !important;
+}
+
+a > i{
+    font-size: 50px;
+}
+
+#form_submit{
+    height: 50px !important;
+    padding: 5px 10px !important;
+}
