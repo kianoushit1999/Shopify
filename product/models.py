@@ -124,39 +124,9 @@ class ConsProperty(models.Model):
         verbose_name=_('cons')
     )
 
-class ShopProduct(models.Model):
-    shop = models.ForeignKey(
-        to=Shop,
-        on_delete=models.CASCADE,
-        related_name='shop_product_shop',
-        related_query_name='shop_product_shop',
-        verbose_name=_('shop'),
-        null=True,
-        blank=True
-    )
+    def __str__(self):
+        return self.cons
 
-    products = models.ForeignKey(
-        to=Product,
-        on_delete=models.CASCADE,
-        related_name='shop_product_products',
-        verbose_name=_('products'),
-        null=True,
-        blank=True
-    )
-
-    price = models.IntegerField(
-        verbose_name=_('price'),
-        default=True
-    )
-
-    quality = models.IntegerField(
-        verbose_name=_('quality'),
-        default=True
-    )
-
-    class Meta:
-        verbose_name = _('shop_product')
-        verbose_name_plural = _('shop_products')
 
 class Comment(models.Model):
     user = models.ForeignKey(
@@ -259,7 +229,7 @@ class Shop(models.Model):
     name = models.CharField(_('shop_name'), max_length=100)
     slug = models.SlugField(_('slug'), db_index=True, unique=True)
     description = models.TextField(_('description'), blank=True)
-    image = models.ImageField(upload_to='images/shop')
+    image = models.ImageField(upload_to='images/shop', null=True, blank=True)
     user = models.ForeignKey(
         to=User,
         on_delete=models.CASCADE,
@@ -273,3 +243,37 @@ class Shop(models.Model):
 
     def __str__(self):
         return f'shop name is {self.name}'
+
+class ShopProduct(models.Model):
+    shop = models.ForeignKey(
+        to=Shop,
+        on_delete=models.CASCADE,
+        related_name='shop_product_shop',
+        related_query_name='shop_product_shop',
+        verbose_name=_('shop'),
+        null=True,
+        blank=True
+    )
+
+    products = models.ForeignKey(
+        to=Product,
+        on_delete=models.CASCADE,
+        related_name='shop_product_products',
+        verbose_name=_('products'),
+        null=True,
+        blank=True
+    )
+
+    price = models.IntegerField(
+        verbose_name=_('price'),
+        default=True
+    )
+
+    quality = models.IntegerField(
+        verbose_name=_('quality'),
+        default=True
+    )
+
+    class Meta:
+        verbose_name = _('shop_product')
+        verbose_name_plural = _('shop_products')

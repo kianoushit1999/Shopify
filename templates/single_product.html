@@ -25,36 +25,34 @@
     <main class="my-5">
         <div class="container" id="custom-background">
             <div class="row">
-                <h3 class="text-center">{{ product.name }}</h3>
+                <h3 class="text-center">{{ object.name }}</h3>
                 <div class="col-3 row my-3 card-shadow">
                     <div class="col-12">
-                        <img src="{{ product.image.url }}" id="target_img" style="height: 100%;width: 100%">
+                        <img src="{{ object.image.url }}" id="target_img" style="height: 100%;width: 100%">
                     </div>
                     {% for image in images %}
-                    <div class="col-6">
-                        <img src="{{ image.image.url }}" class="change_img" style="height: 100%;width: 100%">
-                    </div>
+                        <div class="col-6">
+                            <img src="{{ image.image.url }}" class="change_img" style="height: 100%;width: 100%">
+                        </div>
                     {% endfor %}
                 </div>
                 <div class="col-6 my-3 px-5">
                     <div class="d-flex justify-content-around text-info">
-                        <div>category : <a href="#">{{ product.category }}</a></div>
-                        <div>Brand : <a href="#">{{ product.brand }}</a></div>
+                        <div>category : <a href="#">{{ object.category }}</a></div>
+                        <div>Brand : <a href="#">{{ object.brand }}</a></div>
                     </div>
                     <div class="py-2">
                         <h5>Properties : </h5>
                         <ul>
-                            <li><i class="fas fa-plus text-warning mx-2"></i>Health attr</li>
-                            <li><i class="fas fa-plus text-warning mx-2"></i>Condition attr</li>
-                            <li><i class="fas fa-plus text-warning mx-2"></i>situations attr</li>
-                            <li><i class="fas fa-plus text-warning mx-2"></i>saftly attr</li>
-                            <li><i class="fas fa-plus text-warning mx-2"></i>Shiping cond</li>
-                            <li><i class="fas fa-plus text-danger mx-2"></i>negetive cond</li>
+                            {% for con in cons|slice:":2" %}
+                                <li><i class="fas fa-plus text-warning mx-2"></i>{{ con }}</li>
+                            {% endfor %}
+                            <li><i class="fas fa-plus text-warning mx-2"></i>...</li>
                         </ul>
                     </div>
                     <div>
                         <div class="text-muted"><i class="fas fa-exclamation-triangle mx-2 text-warning"></i>
-                            {{ product.details }}
+                            {{ object.details }}
                         </div>
                     </div>
                     <div>
@@ -72,22 +70,21 @@
                         </div>
                         <ul class="list-group list-group-flush">
                             <li class="list-group-item"><i class="fas fa-shield-alt text-danger px-1"></i> garanty and
-                                phisical conditions
+                                physical conditions
                             </li>
                             <li class="list-group-item"><i class="fas fa-warehouse text-danger px-1"></i>how many
-                                remains
-                                ...
+                                bought until now <span class="text-warning">{{ info.counter }}</span>
                             </li>
                             <li class="list-group-item"><i class="far fa-star text-warning px-1"></i> 96 is satisfied
                             </li>
                             <li class="list-group-item">
                                 <div>
                                     <h4 style="">
-                                        <del style="color: #c11131">200$</del>
-                                        <span class="badge bg-warning text-dark mx-3">20%</span></h4>
+                                        <del style="color: #c11131">{{ info.value }}$</del>
+                                        <span class="badge bg-warning text-dark mx-3">0%</span></h4>
                                 </div>
                                 <div>
-                                    <h4>180$</h4>
+                                    <h4>{{ info.value }}$</h4>
                                 </div>
                             </li>
                         </ul>
@@ -107,192 +104,50 @@
                         </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">
-                                <button type="button" class="btn btn-danger btn-rounded">Buy</button>
-                            </th>
-                            <td><i class="fas fa-cart-plus text-gray px-1"></i>Tecno shop</td>
-                            <td><i class="far fa-star text-warning px-1"></i> 96 is satisfied</td>
-                            <td><i class="fas fa-shield-alt text-danger px-1"></i> garanty and
-                                phisical conditions
-                            </td>
-                            <td>Price: 120$</td>
-                        </tr>
-                        <tr>
-                            <th scope="row">
-                                <button type="button" class="btn btn-danger btn-rounded">Buy</button>
-                            </th>
-                            <td><i class="fas fa-cart-plus text-gray px-1"></i>sibkadeh</td>
-                            <td><i class="far fa-star text-warning px-1"></i> 87 is satisfied</td>
-                            <td><i class="fas fa-shield-alt text-danger px-1"></i> garanty and
-                                phisical conditions
-                            </td>
-                            <td>Price: 125$</td>
-                        </tr>
+                        {% for shop in shops %}
+                            <tr>
+                                <th scope="row">
+                                    <button type="button" class="btn btn-danger btn-rounded">Buy</button>
+                                </th>
+                                <td><i class="fas fa-cart-plus text-gray px-1"></i>{{ shop.shop.name }}</td>
+                                <td><i class="far fa-star text-warning px-1"></i> 96 is satisfied</td>
+                                <td><i class="fas fa-shield-alt text-danger px-1"></i> garanty and
+                                    phisical conditions
+                                </td>
+                                <td>Price: {{ shop.price }}$</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
         </div>
         <section>
-            <h3 class="text-center pt-3 text-center">Related Shops</h3>
+            <h3 class="text-center pt-3 text-center">Related stuff</h3>
             <div class="container py-5">
                 <div class="row">
                     <div class="col-12">
                         <div class="swiper-container swiper-three">
                             <div class="swiper-wrapper">
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/cleaning_two.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Lundry</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
+                                {% for foo in related %}
+                                    <div class="swiper-slide">
+                                        <div class="card">
+                                            <img
+                                                    src="{{ foo.image.url }}"
+                                                    class="card-img-top"
+                                                    alt="..."
+                                            />
+                                            <div class="card-body">
+                                                <h5 class="card-title">{{ foo.name }}</h5>
+                                                <p class="card-text">
+                                                    {{ foo.details }}
+                                                </p>
+                                                <a href="{% url 'product:one_product' foo.slug %}"
+                                                   class="btn btn-primary"> Go </a>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/sport.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Sport</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/health.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Health Devices</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/beauty_.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Beauty and softners</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/cleaning_one.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/cleaning_three.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/beauty.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="swiper-slide">
-                                    <div class="card">
-                                        <img
-                                                src="images/fitness.png"
-                                                class="card-img-top"
-                                                alt="..."
-                                        />
-                                        <div class="card-body">
-                                            <h5 class="card-title">Card title</h5>
-                                            <p class="card-text">
-                                                Some quick example text to build on the card title and make up the bulk
-                                                of
-                                                the
-                                                card's content.
-                                            </p>
-                                            <a href="#!" class="btn btn-primary">Button</a>
-                                        </div>
-                                    </div>
-                                </div>
+                                {% endfor %}
                             </div>
                             <!-- Add Arrows -->
                             <div class="swiper-button-next"></div>
@@ -300,7 +155,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
         </section>
         <div class="container my-4">
             <div class="row">
@@ -349,16 +203,11 @@
                         >
                             <h4>Physical properties</h4>
                             <ul>
-                                <li><i class="fas fa-angle-double-right text-info mx-2"></i>dementions : 209.5x218x215mm
-                                </li>
-                                <li><i class="fas fa-angle-double-right text-info mx-2"></i>wight : 1090gr</li>
-                                <li><i class="fas fa-angle-double-right text-info mx-2"></i>height : 250 cm</li>
-                            </ul>
-                            <h4>health insurance</h4>
-                            <ul>
-                                <li><i class="fas fa-angle-double-right text-info mx-2"></i>Garanty type: good</li>
-                                <li><i class="fas fa-angle-double-right text-info mx-2"></i>shop type:</li>
-                                <li><i class="fas fa-angle-double-right text-info mx-2"></i>Likes:</li>
+                                {% for con in cons %}
+                                    <li><i class="fas fa-angle-double-right text-info mx-2"></i>
+                                        {{ con }}
+                                    </li>
+                                {% endfor %}
                             </ul>
                         </div>
                         <div
@@ -375,6 +224,7 @@
                                 <h6 class="card-title text-muted"><i class="far fa-user mx-2 text-info"></i>Ali</h6>
                                 <div class="card-body">This is good but it's not perfect...</div>
                             </div>
+
                         </div>
                         <div
                                 class="tab-pane fade"

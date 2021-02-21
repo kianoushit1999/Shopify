@@ -224,7 +224,7 @@
                                             <p class="card-text">
                                                 {{ product.details }}
                                             </p>
-                                            <a href="{% url 'product:singleProduct' product.slug %}" class="btn btn-primary"> Go </a>
+                                            <a href="{% url 'product:one_product' product.slug %}" class="btn btn-primary"> Go </a>
                                         </div>
                                     </div>
                                 {% endfor %}
@@ -240,7 +240,7 @@
         <section class="container my-3">
             <h3 class="text-center py-5 text-center "> Most viewed stuff and Bought </h3>
             <div class="row">
-                {% for foo in most_viewed_month %}
+                {% for obj in most_bought %}
                     <div class="col-6">
                         <div class="card mb-3" data-aos="fade-left"
                              data-aos-offset="300"
@@ -248,20 +248,21 @@
                             <div class="row g-0">
                                 <div class="col-md-4">
                                     <img
-                                            src="{{ foo.images.url }}"
+                                            src="{{ obj.product.image.url }}"
                                             alt="..."
                                             class="img-fluid"
                                     />
                                 </div>
                                 <div class="col-md-8">
                                     <div class="card-body">
-                                        <h5 class="card-title">{{ foo.title }}</h5>
+                                        <h5 class="card-title">{{ obj.product.name }}</h5>
                                         <p class="card-text">
-                                            {{ foo.content|truncatewords:10 }}
+                                            {{ obj.product.details |truncatewords:10 }}
                                         </p>
                                         <p class="card-text">
                                             <small class="text-black">
-                                                <a href="#!" class="btn btn-muted"> Go </a>
+                                                <a class="btn btn-success mr-3"> {{ obj.counter }} </a>
+                                                <a href="{% url 'product:one_product' obj.product.slug %}" class="btn btn-muted"> Go </a>
                                             </small>
                                         </p>
                                     </div>

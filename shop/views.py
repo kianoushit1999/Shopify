@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 from .models import *
 from django.db.models import Q
-from product.models import Category, Product
+from product.models import *
 
 
 # Create your views here.
@@ -21,4 +21,5 @@ class Home(TemplateView):
         kwargs['sample_product'] = Product.objects.filter(Q(category__name__iexact='Health') |
                                                           Q(category__name__iexact='cleaning') |
                                                           Q(category__name__iexact='Fitness'))
+        kwargs['most_bought'] = ProductMeta.objects.order_by('-counter')[0:4]
         return kwargs

@@ -43,7 +43,7 @@ class ImageAdmin(admin.ModelAdmin):
 
 @admin.register(ProductMeta)
 class ProductMetaAdmin(admin.ModelAdmin):
-    list_display = ('product', 'label', 'value')
+    list_display = ('product', 'label', 'value', 'counter')
     search_fields = ('label', 'value')
     list_filter = ('product',)
     list_display_links = ('product',)
@@ -61,3 +61,5 @@ class Shop(admin.ModelAdmin):
     search_fields = ('user', 'name', 'slug')
     list_filter = ('user',)
     list_display_links = ('user', )
+
+admin.site.register(ConsProperty)
