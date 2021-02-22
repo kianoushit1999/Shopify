@@ -25,6 +25,8 @@ class SignUp(FormView):
 
 class Login(LoginView):
     template_name = 'login.html'
+    redirect_authenticated_user = True
+    success_url = '/home/'
 
 class Logout(LogoutView):
     template_name = None
