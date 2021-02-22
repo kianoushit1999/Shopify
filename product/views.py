@@ -23,5 +23,5 @@ class OneProfuct(DetailView):
         kwargs['related'] = Product.objects.exclude(name=product.name)\
                                            .filter(Q(brand=product.brand) |
                                                    Q(category__exact=product.category))
-
+        kwargs['comments'] = Comment.objects.filter(product__slug__exact=product.slug)
         return kwargs

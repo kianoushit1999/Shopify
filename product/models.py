@@ -2,6 +2,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 from django.db import models
 from account.models import Shop
+from django.core.validators import MaxValueValidator, MinValueValidator
 User = get_user_model()
 # Create your models here.
 
@@ -152,7 +153,11 @@ class Comment(models.Model):
         null=True
     )
     rate = models.IntegerField(
-        default=True
+        default=True,
+        validators=[
+            MaxValueValidator(5),
+            MinValueValidator(0)
+        ]
     )
     class Meta:
         verbose_name = _('comment')
