@@ -26,14 +26,20 @@ class OneProfuct(DetailView):
                                            .filter(Q(brand=product.brand) |
                                                    Q(category__exact=product.category))
         kwargs['comments'] = Comment.objects.filter(product__slug__exact=product.slug)
+        kwargs['satisfaction_product'] = int(product.calc_rate*20)
+        print(kwargs['satisfaction_product'])
         return kwargs
 @csrf_exempt
 def add_comment(request):
     data = loads(request.body)
     rate = 5 if data.get('like') == 'true' else 0
-    text = data.get('comment_text')
+    text = data.get('comment_text').strip()
     product_slug, author = data.get('user')
     user = User.objects.get(email=author)
     product = Product.objects.get(slug=product_slug)
     Comment.objects.create(text=text, rate=rate, product=product, user=user)
-    return JsonResponse(data=data)
+    response = {
+        'text': text,
+        'user': user.first_name
+    }
+    return JsonResponse(data=response)

@@ -75,7 +75,8 @@
                             <li class="list-group-item"><i class="fas fa-warehouse text-danger px-1"></i>how many
                                 bought until now <span class="text-warning">{{ info.counter }}</span>
                             </li>
-                            <li class="list-group-item"><i class="far fa-star text-warning px-1"></i> 96 is satisfied
+                            <li class="list-group-item"><i
+                                    class="far fa-star text-warning px-1"></i> {{ satisfaction_product }}% is satisfied
                             </li>
                             <li class="list-group-item">
                                 <div>
@@ -216,6 +217,9 @@
                                 role="tabpanel"
                                 aria-labelledby="ex3-tab-2"
                         >
+                            <div id="new_comments">
+
+                            </div>
                             {% for comment in comments %}
                                 <div class="card">
                                     <h6 class="card-title text-muted"><i
@@ -288,9 +292,17 @@
                 user
             }
             postData("{% url 'product:add_comments' %}", data)
-            .then(data => {
-                console.log(data);
-            });
+                .then(data => {
+                    let username = data['user']
+                    let text = data['text']
+                    $('#new_comments').prepend(`
+                    <div class="card">
+                        <h6 class="card-title text-muted"><i
+                            class="far fa-user mx-2 text-info"></i>${username}</h6>
+                        <div class="card-body">${text}</div>
+                    </div>
+                `)
+                });
         })
         $('#thumb_up').click(() => {
             $('#thumb_up').attr("value", "true");

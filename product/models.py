@@ -3,6 +3,7 @@ from django.utils.translation import gettext_lazy as _
 from django.db import models
 from account.models import Shop
 from django.core.validators import MaxValueValidator, MinValueValidator
+from statistics import mean
 User = get_user_model()
 # Create your models here.
 
@@ -104,6 +105,11 @@ class Product(models.Model):
         blank=True,
         null=True,
     )
+
+    @property
+    def calc_rate(self):
+        rates = list(self.comment_product.values_list('rate', flat=True))
+        return mean(rates)
 
     class Meta:
         verbose_name = _('product')
