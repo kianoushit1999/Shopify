@@ -1,7 +1,8 @@
-input:valid{
-    background-color: rgba(248,177,67, 0.1) !important;
-}
 img{
-    height: 10px;
-    width: 10px;
+    height: 500px;
+    width: 500px;
+}
+
+button{
+    background-color: #ff7810 !important;
 }
