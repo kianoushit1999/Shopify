@@ -8,7 +8,7 @@ class SignUpForm(forms.Form):
         label=_('Email'),
         required=True,
         widget=forms.EmailInput(
-            attrs={'style': 'width:40%;'
+            attrs={'style': 'width:60%;'
                             'border:2px solid rgb(243,134,58);'
                             'outline:none;'
                             'border-radius:7px;'
@@ -21,7 +21,7 @@ class SignUpForm(forms.Form):
         validators=[phone_validator()],
         label=_('Phone'),
         required=True,
-        widget=forms.TextInput(attrs={'style': 'width:40%;'
+        widget=forms.TextInput(attrs={'style': 'width:60%;'
                                                'border:2px solid rgb(243,134,58);'
                                                'outline:none;'
                                                'border-radius:7px;'
@@ -32,7 +32,7 @@ class SignUpForm(forms.Form):
     password = forms.CharField(
         label=_('password'),
         required=True,
-        widget=forms.PasswordInput(attrs={'style': 'width:40%;'
+        widget=forms.PasswordInput(attrs={'style': 'width:60%;'
                                                    'border:2px solid rgb(243,134,58);'
                                                    'outline:none;'
                                                    'border-radius:7px;'
@@ -43,7 +43,7 @@ class SignUpForm(forms.Form):
     password2 = forms.CharField(
         label=_('confirm password'),
         required=True,
-        widget=forms.PasswordInput(attrs={'style': 'width:40%;'
+        widget=forms.PasswordInput(attrs={'style': 'width:60%;'
                                                    'border:2px solid rgb(243,134,58);'
                                                    'outline:none;'
                                                    'border-radius:7px;'
@@ -55,7 +55,7 @@ class SignUpForm(forms.Form):
     def clean(self):
         password = self.cleaned_data.get('password')
         repeated_password = self.cleaned_data.get('password2')
-        if password == repeated_password:
+        if password != repeated_password:
             raise ValidationError(_('Your inputed passwords is not compatible to each other'))
 
     def clean_password(self):
