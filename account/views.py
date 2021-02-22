@@ -1,8 +1,6 @@
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.views.generic import FormView
-from django.contrib.auth.views import LoginView
 from django.contrib.auth.views import LogoutView
 from .form import SignUpForm, LoginForm
 from .models import User

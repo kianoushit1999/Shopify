@@ -122,9 +122,10 @@ USE_L10N = True
 
 USE_TZ = True
 
-#Urls
+# Redirection when Login or Logout is happened
 LOGIN_REDIRECT_URL = reverse_lazy('shop:home')
 LOGIN_URL = reverse_lazy('account:login')
+LOGOUT_REDIRECT_URL = reverse_lazy('shop:home')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
