@@ -1,6 +1,8 @@
 from django.db.models import Q, F
-from django.shortcuts import render
+from django.http import JsonResponse
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import TemplateView, DetailView
+from json import loads
 from .models import *
 
 
@@ -25,3 +27,13 @@ class OneProfuct(DetailView):
                                                    Q(category__exact=product.category))
         kwargs['comments'] = Comment.objects.filter(product__slug__exact=product.slug)
         return kwargs
+@csrf_exempt
+def add_comment(request):
+    data = loads(request.body)
+    rate = 5 if data.get('like') == 'true' else 0
+    text = data.get('comment_text')
+    product_slug, author = data.get('user')
+    user = User.objects.get(email=author)
+    product = Product.objects.get(slug=product_slug)
+    Comment.objects.create(text=text, rate=rate, product=product, user=user)
+    return JsonResponse(data=data)

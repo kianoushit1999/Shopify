@@ -238,7 +238,7 @@
                                         </a>
                                     </div>
                                     <button type="button" class="col-3 btn btn-info mx-auto pt-2 my-auto"
-                                            id="form_submit_button">Submit
+                                            id="form_submit_button" value="{{ object.slug }},{{ request.user }}">Submit
                                     </button>
                                 </div>
                             </div>
@@ -280,8 +280,17 @@
         let like = true;
         $('#form_submit_button').click(() => {
             let like = $('#thumb_down').attr("value") === 'true' ? 'false' : 'true';
-            let comment_text = $('#textarea_comment').val()
-
+            let comment_text = $('#textarea_comment').val();
+            let user = $('#form_submit_button').attr("value").split(',');
+            data = {
+                like,
+                comment_text,
+                user
+            }
+            postData("{% url 'product:add_comments' %}", data)
+            .then(data => {
+                console.log(data);
+            });
         })
         $('#thumb_up').click(() => {
             $('#thumb_up').attr("value", "true");
