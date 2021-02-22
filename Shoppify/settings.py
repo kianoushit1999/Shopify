@@ -13,6 +13,8 @@ import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
+from django.urls import reverse_lazy
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 #recognize user in django
@@ -120,6 +122,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+#Urls
+LOGIN_REDIRECT_URL = reverse_lazy('shop:home')
+LOGIN_URL = reverse_lazy('account:login')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/

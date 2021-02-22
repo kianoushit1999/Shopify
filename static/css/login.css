@@ -5,3 +5,6 @@ img{
     height: 400px;
     width: 400px;
 }
+.auto-width{
+    width: 100% !important;
+}

@@ -18,7 +18,7 @@ class UserAdmin(UserAdmin):
             'classes': ('collapse',),
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),
-        (_('Important dates'), {'fields': ('last_login', 'date_joined')}),
+        (_('Important dates'), {'fields': ('last_login',)}),
     )
     add_fieldsets = (
         (None, {

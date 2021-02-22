@@ -63,3 +63,29 @@ class SignUpForm(forms.Form):
         if not pass_validator(password):
             raise ValidationError(_('Your password must be contained alphanumeric and digit'))
         return password
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(
+        label=_('Email'),
+        required=True,
+        widget=forms.EmailInput(
+            attrs={'style': 'width:100%;'
+                            'border:2px solid rgb(243,134,58);'
+                            'outline:none;'
+                            'border-radius:7px;'
+                            'padding:5px;'
+                            'placeholder:something@gmail.com;'
+                            'background-color:rgba(253,205,76,0.1)'
+                   })
+    )
+    password = forms.CharField(
+        label=_('password'),
+        required=True,
+        widget=forms.PasswordInput(attrs={'style': 'width:100%;'
+                                                   'border:2px solid rgb(243,134,58);'
+                                                   'outline:none;'
+                                                   'border-radius:7px;'
+                                                   'padding:5px;'
+                                                   'placeholder:KianoushNasr1378;'
+                                                   'background-color:rgba(248,177,67,0.1)'})
+    )

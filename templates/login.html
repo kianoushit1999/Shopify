@@ -26,17 +26,10 @@
             <form method="POST" action="{% url 'account:login' %}">
                 {% csrf_token %}
                 {% for obj in form %}
-                    {% if forloop.counter == 1 %}
-                        <div class="form-outline mb-4">
-                            <input type="email" id="{{ obj.label }}" class="form-control"/>
-                            <label class="form-label" for="{{ obj.label }}">{{ obj.label }}</label>
-                        </div>
-                    {% else %}
-                        <div class="form-outline mb-4">
-                            <input type="password" id="{{ obj.label }}" class="form-control"/>
-                            <label class="form-label" for="{{ obj.label }}">{{ obj.label }}</label>
-                        </div>
-                    {% endif %}
+                    <div class="form-outline mb-4">
+                        <div>{{ obj.label }}</div>
+                        <div>{{ obj }}</div>
+                    </div>
                 {% endfor %}
                 <!-- 2 column grid layout for inline styling -->
                 <div class="row mb-4">
@@ -67,6 +60,11 @@
                     <p>Not a member? <a href="{% url 'account:sign_up' %}" class="text-warning">Register</a></p>
                 </div>
             </form>
+        </div>
+        <div class="">
+            {% for error,err in form.errors.items %}
+                <p>{{ err }}</p>
+            {% endfor %}
         </div>
     </div>
 </section>
