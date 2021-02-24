@@ -117,17 +117,16 @@
                         {% endfor %}
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" id="form6Example5" class="form-control" value="{{ object.email }}"/>
-                            <label class="form-label" for="form6Example5">Email</label>
+                            <input type="email" id="email" class="form-control" value="{{ object.email }}"/>
+                            <label class="form-label" for="email">Email</label>
                         </div>
 
                         <!-- Number input -->
                         <div class="form-outline mb-4">
-                            <input type="number" id="form6Example6" class="form-control" value="{{ object.phone }}"/>
-                            <label class="form-label" for="form6Example6">Phone</label>
+                            <input type="number" id="phone" class="form-control" value="{{ object.phone }}"/>
+                            <label class="form-label" for="phone">Phone</label>
                         </div>
 
-                        <!-- Message input -->
                         <label class="form-label" for="customFile">Choose picture for yours</label>
                         <input type="file" class="form-control" id="customFile"
                                accept="image/x-png,image/gif,image/jpeg"/>
@@ -214,12 +213,44 @@
 ></script>
 
 <script>
-    {#$("#changeInfo").click((event) => {#}
-    {#    event.preventDefault();#}
-    {#    var firstName = $("#form6Example1").val();#}
-    {#    #}
-    {#    console.log(firstName);#}
-    {#})#}
+    $("#changeInfo").click((event) => {
+        event.preventDefault();
+        var addresses = [];
+        var firstName = $("#first_name").val();
+        var lastName = $("#last_name").val()
+        $('.addresses').each(function () {
+            addresses.push($(this).val());
+        });
+        var email = $("#email").val()
+        var phone = $("#phone").val()
+        var picture = $("#customFile").val()
+        let changeUserInfo = {
+            firstName,
+            lastName,
+            addresses,
+            email,
+            phone,
+            picture
+        }
+
+    })
+
+
+    async function postData(url = '', data = {}) {
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
 </script>
 </body>
 </html>
