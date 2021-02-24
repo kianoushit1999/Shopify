@@ -70,8 +70,7 @@ def update_info(request, pk):
     data = request.POST
     file = request.FILES
     user: User = User.objects.get(pk=pk)
-    len_addr = len(data)-4 if len(file) > 0 else len(data)-5
-
+    len_addr = len(data) - 4 if len(file) > 0 else len(data) - 5
 
     if file is not None:
         user.image = file.get('picture')
@@ -94,7 +93,7 @@ def update_info(request, pk):
     }
 
     for i in range(len_addr):
-        addr = data.get('address'+str(i+1))
+        addr = data.get('address' + str(i + 1))
         city, street, allay, zip_code = addr.split(',')
         response.get('address').append({
             'city': city,
@@ -105,9 +104,26 @@ def update_info(request, pk):
     user.save()
     return JsonResponse(data=response)
 
+
 @csrf_exempt
 def update_pass(request, pk):
-    data = loads(request.body)
-    print(data)
-    response = {}
+    data = request.POST
+    user: User = User.objects.get(pk=pk)
+    old_pass = data.get('prevPass')
+    new_pass = data.get('newPass')
+    rep_pass = data.get('repPass')
+    if (old_pass is not None and old_pass != '' and new_pass == rep_pass):
+        if (user.check_password(old_pass)):
+            try:
+                user.set_password(new_pass)
+                user.save()
+                response = {
+                    'response': 'ok'
+                }
+                return JsonResponse(data=response)
+            except Exception as e:
+                pass
+    response = {
+        'response': 'error'
+    }
     return JsonResponse(data=response)
