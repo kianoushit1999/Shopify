@@ -44,11 +44,11 @@
                                     alt=""
                                     loading="lazy"
                             />
-                            <strong class="d-none d-sm-block ms-1">Kianoush</strong>
+                            <strong class="d-none d-sm-block ms-1">{{ request.user.first_name }}</strong>
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <li><a class="dropdown-item" href="#">Personal Page</a></li>
-                            <li><a class="dropdown-item" href="#">Order</a></li>
+                            <li><a class="dropdown-item" href="{% url 'account:personal_page' request.user.pk %}">Personal Page</a></li>
+                            <li><a class="dropdown-item" href="#">Orders</a></li>
                             <li>
                                 <hr class="dropdown-divider"/>
                             </li>
