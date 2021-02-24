@@ -121,6 +121,9 @@ class Address(models.Model):
         verbose_name = 'address'
         verbose_name_plural = 'address'
 
+    def __str__(self):
+        return f'{self.city}, {self.street}, {self.allay}, {self.zip_code}'
+
 class Shop(models.Model):
     name = models.CharField(_('shop_name'), max_length=100)
     slug = models.SlugField(_('slug'), db_index=True, unique=True)

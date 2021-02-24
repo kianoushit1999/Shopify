@@ -1,12 +1,12 @@
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect
-from django.views.generic import FormView
+from django.views.generic import FormView, DetailView
 from django.contrib.auth.views import LogoutView
 from .form import SignUpForm, LoginForm
-from .models import User
+from .models import *
 
 class SignUp(FormView):
-    template_name = 'signup.html'
+    template_name = 'account/signup.html'
     form_class = SignUpForm
     success_url = '/auth/login/'
     model = User
@@ -23,7 +23,7 @@ class SignUp(FormView):
         return HttpResponseRedirect(self.get_success_url())
 
 class Login(FormView):
-    template_name = 'login.html'
+    template_name = 'account/login.html'
     redirect_authenticated_user = True
     success_url = '/home/'
     form_class = LoginForm
@@ -44,3 +44,16 @@ class Login(FormView):
 
 class Logout(LogoutView):
     template_name = None
+
+
+class PersonalPage(DetailView):
+    template_name = 'account/personal_page.html'
+    model = User
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        kwargs.setdefault('view', self)
+        if self.extra_context is not None:
+            kwargs.update(self.extra_context)
+        kwargs["addresses"]=kwargs['object'].address_user
+        return kwargs
