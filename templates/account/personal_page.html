@@ -115,11 +115,13 @@
                             </div>
                         {% endfor %}
                         <div class="form-outline mb-4">
-                            <input type="email" id="email" class="form-control" value="{{ object.email }}" name='email'/>
+                            <input type="email" id="email" class="form-control" value="{{ object.email }}"
+                                   name='email'/>
                             <label class="form-label" for="email">Email</label>
                         </div>
                         <div class="form-outline mb-4">
-                            <input type="number" id="phone" class="form-control" value="{{ object.phone }}" name='phone' />
+                            <input type="number" id="phone" class="form-control" value="{{ object.phone }}"
+                                   name='phone'/>
                             <label class="form-label" for="phone">Phone</label>
                         </div>
 
@@ -129,6 +131,11 @@
                         <button type="submit" class="btn btn-primary btn-block my-5" id="changeInfo">Change Info
                         </button>
                     </form>
+                    <div class="d-none">{{ addresses.all|length }}</div>
+                    <a id="add_addr"><i class="fas fa-plus text-success mt-2 pr-3"></i>Add new address</a>
+                    <div id="adding_form_addr" class="pt-2">
+
+                    </div>
                 </div>
                 <div
                         class="tab-pane fade"
@@ -206,7 +213,7 @@
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js"
 ></script>
-
+<script src="{% static 'js/PersonalPage.js' %}"></script>
 <script>
     $("#changeInformation").submit(function (event) {
         event.preventDefault();
@@ -225,6 +232,7 @@
             }
         });
     })
+
 
 </script>
 </body>

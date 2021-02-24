@@ -70,51 +70,44 @@ def update_info(request, pk):
     data = request.POST
     file = request.FILES
     user: User = User.objects.get(pk=pk)
-    response = {
-        'first_name': '',
-        'last_name': '',
-        'address': [],
-        'email': '',
-        'phone': ''
-    }
+    len_addr = len(data)-4 if len(file) > 0 else len(data)-5
+
 
     if file is not None:
         user.image = file.get('picture')
-    first_name = data.get('first', [''])[0]
-    last_name = data.get('last', [''])[0]
-    email = data.get('email', [''])[0]
-    phone = data.get('phone', [''])[0]
+    first_name = data.get('first', '')
+    last_name = data.get('last', '')
+    email = data.get('email', '')
+    phone = data.get('phone', None)
 
-    print(request.POST.get('address'))
-    print("*-*-*-*-*-*")
+    user.first_name = first_name
+    user.last_name = last_name
+    user.email = email
+    user.phone = int(phone)
+
+    response = {
+        'first_name': first_name,
+        'last_name': last_name,
+        'address': [],
+        'email': email,
+        'phone': phone
+    }
+
+    for i in range(len_addr):
+        addr = data.get('address'+str(i+1))
+        city, street, allay, zip_code = addr.split(',')
+        response.get('address').append({
+            'city': city,
+            'street': street,
+            'allay': allay,
+            'zip_code': zip_code
+        })
+    user.save()
+    return JsonResponse(data=response)
+
+@csrf_exempt
+def update_pass(request, pk):
+    data = loads(request.body)
     print(data)
-    print(len(file))
-    #
-    # user.first_name = first_name
-    # user.last_name = last_name
-    # user.email = email
-    # user.phone = int(phone)
-    # print(address)
-    # print("*-*-*-*-*-*")
-    # if len(address[0]) > 1:
-    #     city, street, allay, zip_code = address[0].split(',')
-    #     Address.objects.create(user=user, city=city, street=street, allay=allay, zip_code=int(zip_code))
-    #     response.get('address')[0] = {
-    #         'city': city,
-    #         'street': street,
-    #         'allay': allay,
-    #         'zip_code': zip_code
-    #     }
-    # if len(address) > 1:
-    #     for index, add in enumerate(address[1:]):
-    #         print(add)
-    #         city, street, allay, zip_code = add.split(',')
-    #         Address.objects.create(user=user, city=city, street=street, allay=allay, zip_code=zip_code)
-    #         response.get('address')[index + 1] = {
-    #             'city': city,
-    #             'street': street,
-    #             'allay': allay,
-    #             'zip_code': zip_code
-    #         }
-    # user.save()
+    response = {}
     return JsonResponse(data=response)
