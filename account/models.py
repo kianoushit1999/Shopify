@@ -53,7 +53,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     phone = models.CharField(verbose_name=_("phone_number"), validators=[phone_re], max_length=17, blank=True,
                              help_text="Enter valid phone number because it'll send you a message at once")
 
-    image = models.ImageField(upload_to='images/user', blank=True, null=True)
+    image = models.ImageField(upload_to='images/user/', blank=True, null=True)
 
     EMAIL_FIELD = 'email'
     USERNAME_FIELD = 'email'

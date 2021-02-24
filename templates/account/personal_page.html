@@ -90,46 +90,42 @@
                         role="tabpanel"
                         aria-labelledby="v-pills-home-tab"
                 >
-                    <form>
+                    <form id="changeInformation" action="" enctype="multipart/form-data">
                         <div class="row mb-4">
                             <div class="col">
                                 <div class="form-outline">
                                     <input type="text" id="first_name" class="form-control"
-                                           value="{{ object.first_name }}"/>
+                                           value="{{ object.first_name }}" name="first"/>
                                     <label class="form-label" for="first_name">First name</label>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-outline">
                                     <input type="text" id="last_name" class="form-control"
-                                           value="{{ object.last_name }}"/>
+                                           value="{{ object.last_name }}" name="last"/>
                                     <label class="form-label" for="last_name">Last name</label>
                                 </div>
                             </div>
                         </div>
-                        <!-- Text input -->
                         {% for address in addresses.all %}
                             <div class="form-outline mb-4">
                                 <input type="text" id="address{{ forloop.counter }}" class="form-control addresses"
-                                       value="{{ address }}"/>
+                                       value="{{ address }}" name='address{{ forloop.counter }}'/>
                                 <label class="form-label" for="address{{ forloop.counter }}">Address</label>
                             </div>
                         {% endfor %}
-                        <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" id="email" class="form-control" value="{{ object.email }}"/>
+                            <input type="email" id="email" class="form-control" value="{{ object.email }}" name='email'/>
                             <label class="form-label" for="email">Email</label>
                         </div>
-
-                        <!-- Number input -->
                         <div class="form-outline mb-4">
-                            <input type="number" id="phone" class="form-control" value="{{ object.phone }}"/>
+                            <input type="number" id="phone" class="form-control" value="{{ object.phone }}" name='phone' />
                             <label class="form-label" for="phone">Phone</label>
                         </div>
 
                         <label class="form-label" for="customFile">Choose picture for yours</label>
                         <input type="file" class="form-control" id="customFile"
-                               accept="image/x-png,image/gif,image/jpeg"/>
+                               accept="image/x-png,image/gif,image/jpeg" name="picture"/>
                         <button type="submit" class="btn btn-primary btn-block my-5" id="changeInfo">Change Info
                         </button>
                     </form>
@@ -201,7 +197,6 @@
                     <button type="submit" class="btn btn-block btn-info">Buy all</button>
                 </div>
             </div>
-            <!-- Tab content -->
         </div>
     </div>
 </section>
@@ -213,44 +208,24 @@
 ></script>
 
 <script>
-    $("#changeInfo").click((event) => {
+    $("#changeInformation").submit(function (event) {
         event.preventDefault();
-        var addresses = [];
-        var firstName = $("#first_name").val();
-        var lastName = $("#last_name").val()
-        $('.addresses').each(function () {
-            addresses.push($(this).val());
+        let doc = document.getElementById('changeInformation');
+        var formData = new FormData(doc);
+        $.ajax({
+            url: "{% url 'account:update_information' object.pk %}",
+            type: 'POST', // performing a POST request
+            data: formData,
+            cache: false,
+            dataType: 'json',
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                console.log(data)
+            }
         });
-        var email = $("#email").val()
-        var phone = $("#phone").val()
-        var picture = $("#customFile").val()
-        let changeUserInfo = {
-            firstName,
-            lastName,
-            addresses,
-            email,
-            phone,
-            picture
-        }
-
     })
 
-
-    async function postData(url = '', data = {}) {
-        const response = await fetch(url, {
-            method: 'POST',
-            mode: 'cors',
-            cache: 'no-cache',
-            credentials: 'same-origin',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: 'follow', // manual, *follow, error
-            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-            body: JSON.stringify(data) // body data type must match "Content-Type" header
-        });
-        return response.json(); // parses JSON response into native JavaScript objects
-    }
 </script>
 </body>
 </html>
