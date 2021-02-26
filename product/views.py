@@ -48,14 +48,18 @@ class SpecificCategories(ListView):
         kwargs['products'] = Product.objects.filter(category__slug=self.category_slug)
         kwargs['brands'] = []
         kwargs['shops'] = []
+        kwargs['product_brand'] = {}
         for object in Brand.objects.all():
             if object.product_brand.filter(category__slug=self.category_slug):
                 kwargs['brands'].append(object)
+                if kwargs['product_brand'].get(object.name, None) is None:
+                    kwargs['product_brand'][object.name] = ""
+
 
         for product in Product.objects.filter(category__slug=self.category_slug):
             for shop_product in product.shop_product_products.all():
                 kwargs['shops'].append(shop_product.shop)
-        print()
+                kwargs['product_brand'][product.brand.name] = (kwargs['product_brand'][product.brand.name] +' '+ shop_product.shop.name)
         return kwargs
 
 class OneProfuct(DetailView):
