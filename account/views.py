@@ -51,7 +51,6 @@ class Login(FormView):
 class Logout(LogoutView):
     template_name = None
 
-
 class PersonalPage(DetailView):
     template_name = 'account/personal_page.html'
     model = User

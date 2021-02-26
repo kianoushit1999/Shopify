@@ -6,7 +6,7 @@ from .views import *
 
 app_name = 'product'
 urlpatterns = [
-                    path('singlecat/<slug:slug>/', SpecificCategory.as_view(), name='category'),
+                    path('singlecat/<slug:slug>/', SpecificCategories.as_view(), name='category'),
                     path('singlepro/<slug:slug>/', OneProfuct.as_view(), name='one_product'),
                     path('comment/', add_comment, name='add_comments')
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT) + \
