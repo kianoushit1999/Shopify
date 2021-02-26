@@ -24,25 +24,20 @@
     <div class="row">
         <div class="col-10 p-5 d-flex flex-wrap">
             {% for obj in products %}
-                {% for key,value in product_brand.items %}
-                    {% if key == obj.brand.name %}
-                        <div class="card mx-2 my-3 {{ obj.brand.name }} {{ value }}"
-                             style="width: 14rem;">
-                            <img
-                                    src="{{ obj.image.url }}"
-                                    class="card-img-top"
-                                    alt="..."
-                            />
-                            <div class="card-body text-center">
-                                <p class="card-text">
-                                    {{ obj.name }}<br/>
-                                    {{ obj.details|truncatewords:15 }}
-                                </p>
-                                <a href="{% url "product:one_product" obj.slug %}" class="btn btn-primary"> Go </a>
-                            </div>
-                        </div>
-                    {% endif %}
-                {% endfor %}
+                <div class="card mx-2 my-3 {{ obj.slug }}" style="width: 14rem;">
+                    <img
+                            src="{{ obj.image.url }}"
+                            class="card-img-top"
+                            alt="..."
+                    />
+                    <div class="card-body text-center">
+                        <p class="card-text">
+                            {{ obj.name }}<br/>
+                            {{ obj.details|truncatewords:15 }}
+                        </p>
+                        <a href="{% url "product:one_product" obj.slug %}" class="btn btn-primary"> Go </a>
+                    </div>
+                </div>
             {% endfor %}
         </div>
         <div class="col-2 py-5 px-2">
@@ -113,7 +108,17 @@
                 checks.shops.true.push($(elem).attr("id"))
         }
         postData("{% url 'product:checkbox_checker' %}", checks).then(data => {
-            console.log(data)
+            let slug_product = new Set();
+            data.ans.map((item)=>{
+                slug_product.add(item)
+            })
+            for (const elem of $('.card')) {
+                let flag=false;
+                for(const cl of $(elem).attr("class").trim().split(" ")){
+                    slug_product.has(cl)?flag=true: undefined;
+                }
+                !flag ? $(elem).addClass('d-none'):$(elem).hasClass('d-none')&&$(elem).removeClass('d-none');
+            }
         });
     })
 

@@ -4,3 +4,6 @@
 h4, label{
     text-shadow: 1px 1px 12px #bedeea !important;
 }
+.dropdown-toggle::after {
+    content: none;
+}

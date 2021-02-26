@@ -8,3 +8,6 @@ input{
     border: #F7A93D !important;
     outline: #F7A93D !important;
 }
+.dropdown-toggle::after {
+    content: none;
+}

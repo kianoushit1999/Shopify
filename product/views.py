@@ -47,21 +47,17 @@ class SpecificCategories(ListView):
 
         kwargs['products'] = Product.objects.filter(category__slug=self.category_slug)
         kwargs['brands'] = []
-        kwargs['shops'] = []
+        kwargs['shops'] = set()
         kwargs['slug'] = self.category_slug
-        kwargs['product_brand'] = {}
 
         for object in Brand.objects.all():
             if object.product_brand.filter(category__slug=self.category_slug):
                 kwargs['brands'].append(object)
-                if kwargs['product_brand'].get(object.name, None) is None:
-                    kwargs['product_brand'][object.name] = ""
 
         for product in Product.objects.filter(category__slug=self.category_slug):
             for shop_product in product.shop_product_products.all():
-                kwargs['shops'].append(shop_product.shop)
-                kwargs['product_brand'][product.brand.name] = (
-                            kwargs['product_brand'][product.brand.name] + ' ' + shop_product.shop.name)
+                kwargs['shops'].add(shop_product.shop)
+        return kwargs
 
 class OneProfuct(DetailView):
     template_name = 'single_product.html'
@@ -100,14 +96,14 @@ def add_comment(request):
 @csrf_exempt
 def checkbox(request):
     data = loads(request.body)
-    response = {'ans': 'ok'}
+    response = {'ans': []}
     cat_slug = data.get('slug')
     brands = data.get('brands')
     false_target_shop = data.get('shops')['false']
     true_target_shop = data.get('shops')['true']
     products = Product.objects.filter(category__slug=cat_slug).exclude(brand__name__in=brands)
     shops = Shop.objects.filter(name__in=true_target_shop).exclude(name__in=false_target_shop)
-    print(products)
-    print('*-*-*-*-*-*')
-    print(shops)
+    shop_pro = ShopProduct.objects.filter(Q(products__in=products) & Q(shop__in=shops))
+    for pros in shop_pro:
+        response.get('ans').append(pros.products.slug)
     return JsonResponse(response)
