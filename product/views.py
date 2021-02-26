@@ -24,7 +24,7 @@ class SpecificCategories(ListView):
             if isinstance(queryset, QuerySet):
                 queryset = queryset.all()
         elif self.model is not None:
-            queryset = Product.objects.filter(category__slug=self.kwargs.get('slug'))
+            queryset = Product.objects.filter(category__slug=self.kwargs['slug'])
         else:
             raise ImproperlyConfigured(
                 "%(cls)s is missing a QuerySet. Define "
@@ -45,15 +45,17 @@ class SpecificCategories(ListView):
         if self.extra_context is not None:
             kwargs.update(self.extra_context)
 
+        kwargs['products'] = Product.objects.filter(category__slug=self.category_slug)
         kwargs['brands'] = []
-        kwargs['shop'] = []
+        kwargs['shops'] = []
         for object in Brand.objects.all():
             if object.product_brand.filter(category__slug=self.category_slug):
                 kwargs['brands'].append(object)
 
         for product in Product.objects.filter(category__slug=self.category_slug):
-            kwargs['shop'].extend(product.shop_product_products.all())
-        print(kwargs['shop'])
+            for shop_product in product.shop_product_products.all():
+                kwargs['shops'].append(shop_product.shop)
+        print()
         return kwargs
 
 class OneProfuct(DetailView):

@@ -16,56 +16,62 @@
             href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.css"
             rel="stylesheet"
     />
+    <link rel="stylesheet" href="{% static 'css/category.css' %}">
 </head>
 <body>
 {% include 'base/login_header.html' %}
 <div class="container-swiper">
     <div class="row">
-        <div class="col-10 p-5">
-            <div class="ard" style="width: 18rem;">
-                <img
-                        src=""
-                        class="card-img-top"
-                        alt="..."
-                />
-                <div class="card-body">
-                    <p class="card-text">
-                        {% for brand in brands %}
-                            {{ brand.name }}
-                        {% endfor %}
-                    </p>
-                    <a href="" class="btn btn-primary"> Go </a>
+        <div class="col-10 p-5 d-flex ">
+            {% for obj in products %}
+                <div class="card mx-2 {{ products.brand.name }}" style="width: 18rem;">
+                    <img
+                            src="{{ obj.image.url }}"
+                            class="card-img-top"
+                            alt="..."
+                    />
+                    <div class="card-body text-center">
+                        <p class="card-text">
+                            {{ obj.name }}<br />
+                            {{ obj.details|truncatewords:15 }}
+                        </p>
+                        <a href="" class="btn btn-primary"> Go </a>
+                    </div>
                 </div>
-            </div>
+            {% endfor %}
         </div>
         <div class="col-2 py-5">
             <form id="brand">
                 <h4 class="px-5 py-2"> brands </h4>
-                <div class="form-check">
-                    <input
-                            class="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                    />
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Default checkbox
-                    </label>
-                </div>
+                {% for brand in brands %}
+                    <div class="form-check">
+                        <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value=""
+                                id="flexCheckDefault"
+                        />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{ brand.name }}
+                        </label>
+                    </div>
+                {% endfor %}
             </form>
             <form id="shops">
                 <h4 class="px-5 py-2"> shops </h4>
-                <div class="form-check">
-                    <input
-                            class="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                    />
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Default checkbox
-                    </label>
-                </div>
+                {% for shop in shops %}
+                    <div class="form-check">
+                        <input
+                                class="form-check-input"
+                                type="checkbox"
+                                value=""
+                                id="flexCheckDefault"
+                        />
+                        <label class="form-check-label" for="flexCheckDefault">
+                            {{ shop.name }}
+                        </label>
+                    </div>
+                {% endfor %}
             </form>
             <form id="categories">
                 <h4 class="px-4 py-2"> categories </h4>
@@ -91,5 +97,6 @@
         type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js"
 ></script>
+
 </body>
 </html>
