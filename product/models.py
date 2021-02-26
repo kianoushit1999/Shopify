@@ -288,3 +288,6 @@ class ShopProduct(models.Model):
     class Meta:
         verbose_name = _('shop_product')
         verbose_name_plural = _('shop_products')
+
+    def __str__(self):
+        return f'shopProduct {self.shop}'

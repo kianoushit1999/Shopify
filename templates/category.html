@@ -26,7 +26,7 @@
             {% for obj in products %}
                 {% for key,value in product_brand.items %}
                     {% if key == obj.brand.name %}
-                        <div class="card mx-2 my-3 {{ obj.brand.name }} {{ value }}" value="{{ value }}"
+                        <div class="card mx-2 my-3 {{ obj.brand.name }} {{ value }}"
                              style="width: 14rem;">
                             <img
                                     src="{{ obj.image.url }}"
@@ -51,7 +51,7 @@
                 {% for brand in brands %}
                     <div class="form-check pl-2">
                         <input
-                                class="form-check-input brand"
+                                class="form-check-input checks brand"
                                 type="checkbox"
                                 value=""
                                 checked
@@ -68,7 +68,7 @@
                 {% for shop in shops %}
                     <div class="form-check pl-2">
                         <input
-                                class="form-check-input shop"
+                                class="form-check-input checks shop"
                                 type="checkbox"
                                 value=""
                                 checked
@@ -79,20 +79,6 @@
                         </label>
                     </div>
                 {% endfor %}
-            </form>
-            <form id="categories">
-                <h4 class="px-4 py-2"> categories </h4>
-                <div class="form-check pl-2">
-                    <input
-                            class="form-check-input"
-                            type="checkbox"
-                            value=""
-                            id="flexCheckDefault"
-                    />
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Default checkbox
-                    </label>
-                </div>
             </form>
         </div>
     </div>
@@ -105,36 +91,47 @@
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/3.0.0/mdb.min.js"
 ></script>
 <script>
-    $(".brand").on("change", function () {
-        let brand = $(this).attr("id")
-        console.log(brand)
-        for (eleme of $(`.card.${brand}`)) {
-            $(eleme).hasClass("d-none") ? $(eleme).removeClass("d-none") : $(eleme).addClass("d-none")
-        }
-    })
-    $(".shop").on("change", function () {
-        var shop_name = $(this).attr("id");
-        for (eleme of $(`.card.${shop_name}`)) {
-            let arr = ($(eleme).attr("value").trim() == "")? []: $(eleme).attr("value").trim().split(" ");
-            if(arr.length != 0 && arr.includes(shop_name)) {
-                if (arr.includes(shop_name)) {
-                    arr = arr.filter((item) => {
-                        return item != shop_name
-                    })
-                }
-                (arr.length == 0) && $(eleme).addClass("d-none");
-                console.log(arr)
-                $(eleme).attr("value", arr.join(' '));
-            }else{
-                let shops = $(eleme).attr("value")
-                $(eleme).attr("value", shops+` ${shop_name}`);
-                $(eleme).removeClass("d-none")
-                console.log(shop_name)
-                console.log('-*-*-*-*-')
+    $('.checks').on("change", function () {
+        let checks = {
+            'slug': '{{ slug }}',
+            'brands': [],
+            'shops': {
+                'false':[],
+                'true':[]
             }
-            console.log(eleme)
         }
+        let brand = $('.brand')
+        let shop = $('.shop')
+        for (const elem of brand) {
+            if(!$(elem).is(':checked'))
+                checks.brands.push($(elem).attr("id"))
+        }
+        for (const elem of shop) {
+            if(!$(elem).is(':checked'))
+                checks.shops.false.push($(elem).attr("id"))
+            else
+                checks.shops.true.push($(elem).attr("id"))
+        }
+        postData("{% url 'product:checkbox_checker' %}", checks).then(data => {
+            console.log(data)
+        });
     })
+
+    async function postData(url = '', data = {}) {
+        const response = await fetch(url, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            credentials: 'same-origin',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            redirect: 'follow', // manual, *follow, error
+            referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+            body: JSON.stringify(data) // body data type must match "Content-Type" header
+        });
+        return response.json(); // parses JSON response into native JavaScript objects
+    }
 </script>
 </body>
 </html>
