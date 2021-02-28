@@ -17,8 +17,12 @@ def add_to_basket(request):
         price=shop_product_price
     )
     basket = Basket.objects.get(user__pk=int(user_id))
-    basket.shop_product = shop_product
-    basket.save()
+    if(len(BasketItems.objects.filter(basket=basket, shop_product=shop_product))==0):
+        BasketItems.objects.create(basket=basket, shop_product=shop_product)
+    else:
+        basket_items = BasketItems.objects.get(basket=basket, shop_product=shop_product)
+        basket_items.counter += 1
+        basket_items.save()
     print(shop_product)
     return JsonResponse(
         {

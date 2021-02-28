@@ -84,7 +84,7 @@
                     {% if request.user.is_authenticated %}
                         <li class="nav-item px-2">
                             <a class="nav-link"
-                               href="{% url 'account:personal_page' request.user.pk %}">
+                               href="{% url 'account:go_basket' request.user.pk %}">
                                 <span class="badge rounded-pill badge-notification bg-danger">1</span>
                                 <span><i class="fas fa-shopping-cart"></i></span>
                             </a>

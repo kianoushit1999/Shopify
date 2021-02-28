@@ -90,6 +90,7 @@
                             </li>
                         </ul>
                         <button type="button" class="btn btn-danger btn-rounded m-3 add_basket"
+                                data-mdb-toggle="modal" data-mdb-target="#exampleModal"
                                 value="{{ object.slug }} {{ shops.0.shop.slug }} {{ shops.0.price }} {{ request.user.id }}">
                             Add to basket
                         </button>
@@ -112,7 +113,8 @@
                             <tr>
                                 <th scope="row">
                                     <button type="button" class="btn btn-danger btn-rounded diff_shop"
-                                            value="{{ object.slug }} {{ shop.shop.slug }} {{ shop.price }}">
+                                            data-mdb-toggle="modal" data-mdb-target="#exampleModal"
+                                            id="{{ object.slug }} {{ shop.shop.slug }} {{ shop.price }} {{ request.user.id }}">
                                         Buy
                                     </button>
                                 </th>
@@ -276,6 +278,22 @@
             </div>
         </div>
     </main>
+    <div class="modal right fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+         data-mdb-backdrop="true" data-mdb-keyboard="true">
+        <div class="modal-dialog modal-side modal-bottom-right ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        <div class="d-flex justify-content-around">
+                            <div class="px-2"><span><i class="fas fa-shopping-cart"></i></span></div>
+                            <div class="text-success">Added to your basket successfully</div>
+                        </div>
+                    </h5>
+                    <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}
 
 {% block js %}
@@ -321,9 +339,12 @@
                 });
         })
 
-        $(".diff_shop").click(() => {
-            let data = $(".diff_shop").attr("value")
-            console.log(data)
+        $(".diff_shop").click((event) => {
+            let data = event.target.id
+            postData("{% url 'order:add_basket' %}", data)
+                .then(data => {
+                    console.log(data)
+                });
         })
 
         $('#thumb_up').click(() => {

@@ -1,6 +1,7 @@
 from json import loads
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, JsonResponse
+from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, DetailView
 from django.contrib.auth.views import LogoutView
@@ -62,6 +63,7 @@ class PersonalPage(DetailView):
         if self.extra_context is not None:
             kwargs.update(self.extra_context)
         kwargs["addresses"] = kwargs['object'].address_user
+        kwargs["Redirect"] = 'false'
         return kwargs
 
 
@@ -127,3 +129,16 @@ def update_pass(request, pk):
         'response': 'error'
     }
     return JsonResponse(data=response)
+
+class Redirect(DetailView):
+    template_name = 'account/personal_page.html'
+    model = User
+    pk_url_kwarg = 'pk'
+
+    def get_context_data(self, **kwargs):
+        kwargs.setdefault('view', self)
+        if self.extra_context is not None:
+            kwargs.update(self.extra_context)
+        kwargs["addresses"] = kwargs['object'].address_user
+        kwargs["Redirect"] = 'true'
+        return kwargs

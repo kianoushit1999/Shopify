@@ -276,8 +276,11 @@
             }
         });
     })
-
-
+    $(document).ready(function () {
+        let redirect = {{ Redirect }};
+        console.log(redirect)
+        redirect && document.getElementById("v-pills-basket-tab").click();
+    });
 </script>
 </body>
 </html>
