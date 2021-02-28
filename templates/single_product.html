@@ -81,15 +81,17 @@
                             <li class="list-group-item">
                                 <div>
                                     <h4 style="">
-                                        <del style="color: #c11131">{{ info.value }}$</del>
+                                        <del style="color: #c11131">{{ shops.0.price }}$</del>
                                         <span class="badge bg-warning text-dark mx-3">0%</span></h4>
                                 </div>
                                 <div>
-                                    <h4>{{ info.value }}$</h4>
+                                    <h4>{{ shops.0.price }}$</h4>
                                 </div>
                             </li>
                         </ul>
-                        <button type="button" class="btn btn-danger btn-rounded m-3">Add to basket</button>
+                        <button type="button" class="btn btn-danger btn-rounded m-3 add_basket"
+                                value="{{ object.slug }} {{ shops.0.shop.slug }} {{ shops.0.price }}">Add to basket
+                        </button>
                     </div>
 
                 </div>
@@ -108,10 +110,15 @@
                         {% for shop in shops %}
                             <tr>
                                 <th scope="row">
-                                    <button type="button" class="btn btn-danger btn-rounded">Buy</button>
+                                    <button type="button" class="btn btn-danger btn-rounded diff_shop"
+                                            value="{{ object.slug }} {{ shop.shop.slug }} {{ shop.price }}">
+                                        Buy
+                                    </button>
                                 </th>
                                 <td><i class="fas fa-cart-plus text-gray px-1"></i>{{ shop.shop.name }}</td>
-                                <td><i class="far fa-star text-warning px-1"></i> 96 is satisfied</td>
+                                <td><i class="far fa-star text-warning px-1"></i> {{ satisfaction_product }}% is
+                                    satisfied
+                                </td>
                                 <td><i class="fas fa-shield-alt text-danger px-1"></i> garanty and
                                     phisical conditions
                                 </td>
@@ -304,6 +311,20 @@
                 `)
                 });
         })
+
+        $(".add_basket").click(() => {
+            let data = $('.add_basket').attr("value")
+            postData("{% url 'product:add_comments' %}", data)
+                .then(data => {
+                    console.log(data)
+                });
+        })
+
+        $(".diff_shop").click(() => {
+            let data = $(".diff_shop").attr("value")
+            console.log(data)
+        })
+
         $('#thumb_up').click(() => {
             $('#thumb_up').attr("value", "true");
             $('#thumb_down').attr("value", "");

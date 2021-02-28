@@ -71,7 +71,7 @@ class OneProfuct(DetailView):
         kwargs['images'] = Image.objects.filter(product__slug__iexact=product.slug)
         kwargs['cons'] = ConsProperty.objects.filter(product__slug__iexact=product.slug)
         kwargs['info'] = ProductMeta.objects.get(product__slug__iexact=product.slug)
-        kwargs['shops'] = ShopProduct.objects.filter(products__slug__iexact=product.slug)
+        kwargs['shops'] = ShopProduct.objects.filter(products__slug__iexact=product.slug).order_by("price")
         kwargs['related'] = Product.objects.exclude(name=product.name)\
                                            .filter(Q(brand=product.brand) |
                                                    Q(category__exact=product.category))
@@ -107,3 +107,9 @@ def checkbox(request):
     for pros in shop_pro:
         response.get('ans').append(pros.products.slug)
     return JsonResponse(response)
+
+@csrf_exempt
+def add_basket(request):
+    data = loads(request.body)
+
+    return JsonResponse(data=data)
