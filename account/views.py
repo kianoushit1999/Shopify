@@ -1,11 +1,11 @@
 from json import loads
-
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, DetailView
 from django.contrib.auth.views import LogoutView
 from .form import SignUpForm, LoginForm
+from order.models import *
 from .models import *
 
 
@@ -24,6 +24,7 @@ class SignUp(FormView):
         user = User(email=email, phone=phone)
         user.set_password(password)
         user.save()
+        Basket.objects.create(user=user)
         return HttpResponseRedirect(self.get_success_url())
 
 

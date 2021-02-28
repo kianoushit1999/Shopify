@@ -90,7 +90,8 @@
                             </li>
                         </ul>
                         <button type="button" class="btn btn-danger btn-rounded m-3 add_basket"
-                                value="{{ object.slug }} {{ shops.0.shop.slug }} {{ shops.0.price }}">Add to basket
+                                value="{{ object.slug }} {{ shops.0.shop.slug }} {{ shops.0.price }} {{ request.user.id }}">
+                            Add to basket
                         </button>
                     </div>
 
@@ -314,7 +315,7 @@
 
         $(".add_basket").click(() => {
             let data = $('.add_basket').attr("value")
-            postData("{% url 'product:add_comments' %}", data)
+            postData("{% url 'order:add_basket' %}", data)
                 .then(data => {
                     console.log(data)
                 });

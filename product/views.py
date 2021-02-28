@@ -107,9 +107,3 @@ def checkbox(request):
     for pros in shop_pro:
         response.get('ans').append(pros.products.slug)
     return JsonResponse(response)
-
-@csrf_exempt
-def add_basket(request):
-    data = loads(request.body)
-
-    return JsonResponse(data=data)

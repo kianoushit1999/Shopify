@@ -77,6 +77,15 @@ class Basket(models.Model):
         on_delete=models.CASCADE
     )
 
+    shop_product = models.ForeignKey(
+        to=ShopProduct,
+        related_name="basket_shop_product",
+        related_query_name="basket_shop_product",
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
     class Meta:
         verbose_name = _("basket")
         verbose_name_plural = _("baskets")
