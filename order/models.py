@@ -69,6 +69,25 @@ class Table(models.Model):
     def __str__(self):
         return f'Table for {self.order}'
 
+class BasketItems(models.Model):
+    shop_product = models.ForeignKey(
+        to=ShopProduct,
+        related_name="basket_item_shop_product",
+        related_query_name="basket_item_shop_product",
+        on_delete=models.CASCADE
+    )
+    counter = models.IntegerField(
+        default=True,
+        null=True
+    )
+
+    class Meta:
+        verbose_name = _("basket_item")
+        verbose_name_plural = _("basket_items")
+
+    def __str__(self):
+        return f'basketItems for {self.basket}'
+
 class Basket(models.Model):
     user = models.OneToOneField(
         to=user,
@@ -77,10 +96,10 @@ class Basket(models.Model):
         on_delete=models.CASCADE
     )
 
-    shop_product = models.ForeignKey(
-        to=ShopProduct,
-        related_name="basket_shop_product",
-        related_query_name="basket_shop_product",
+    basket_items = models.ForeignKey(
+        to=BasketItems,
+        related_name="basket_basket_items",
+        related_query_name="basket_basket_items",
         on_delete=models.CASCADE,
         null=True,
         blank=True
@@ -93,26 +112,7 @@ class Basket(models.Model):
     def __str__(self):
         return f'Basket for {self.user}'
 
-class BasketItems(models.Model):
-    basket = models.ForeignKey(
-        to=Basket,
-        related_name="basket_item_basket",
-        related_query_name="basket_items_basket",
-        on_delete=models.CASCADE
-    )
-    shop_product = models.ForeignKey(
-        to=ShopProduct,
-        related_name="basket_item_shop_product",
-        related_query_name="basket_item_shop_product",
-        on_delete=models.CASCADE
-    )
 
-    class Meta:
-        verbose_name = _("basket_item")
-        verbose_name_plural = _("basket_items")
-
-    def __str__(self):
-        return f'basketItems for {self.basket}'
 
 class payment(models.Model):
     order = models.OneToOneField(
