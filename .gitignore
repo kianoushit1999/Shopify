@@ -3,11 +3,9 @@ account/__pycache__/
 order/__pycache__/
 product/__pycache__/
 shop/__pycache__/
-media/
 .idea/
 venv/
 Shoppify/__pycache__/
-db.sqlite3
 account/migrations/__pycache__/
 order/migrations/__pycache__/
 shop/migrations/__pycache__/
