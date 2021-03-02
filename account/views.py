@@ -1,10 +1,13 @@
 from json import loads
 from django.contrib.auth import authenticate, login
 from django.http import HttpResponseRedirect, JsonResponse
+from django.shortcuts import resolve_url
 from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import FormView, DetailView
 from django.contrib.auth.views import LogoutView
+
+from Shoppify import settings
 from .form import SignUpForm, LoginForm
 from order.models import *
 from .models import *
@@ -32,7 +35,6 @@ class SignUp(FormView):
 class Login(FormView):
     template_name = 'account/login.html'
     redirect_authenticated_user = True
-    success_url = '/home/'
     form_class = LoginForm
     model = User
 
@@ -49,9 +51,15 @@ class Login(FormView):
         else:
             return HttpResponseRedirect('/auth/login/')
 
+    def get_success_url(self):
+        if '=' in self.request.META.get('HTTP_REFERER'):
+            return self.request.META.get('HTTP_REFERER').split('=')[1]
+        return resolve_url(settings.LOGIN_REDIRECT_URL)
+
 
 class Logout(LogoutView):
     template_name = None
+
 
 class PersonalPage(DetailView):
     template_name = 'account/personal_page.html'
@@ -64,6 +72,20 @@ class PersonalPage(DetailView):
             kwargs.update(self.extra_context)
         kwargs["addresses"] = kwargs['object'].address_user
         kwargs["Redirect"] = 'false'
+        kwargs['basket_items'] = {}
+        kwargs['total'] = 0
+        basket = Basket.objects.get(user=kwargs['object'])
+        for item in basket.basket_basket_items.all():
+            print(item.shop_product.price, item.counter)
+            kwargs['basket_items'][f"{item.shop_product.shop.name}"] = [
+                item.shop_product.products.name,
+                item.counter,
+                item.shop_product.price,
+                item.shop_product.price * item.counter
+            ]
+            kwargs['total'] += (item.shop_product.price * item.counter)
+        print(kwargs['basket_items'])
+        print(kwargs['total'])
         return kwargs
 
 
@@ -130,6 +152,7 @@ def update_pass(request, pk):
     }
     return JsonResponse(data=response)
 
+
 class Redirect(DetailView):
     template_name = 'account/personal_page.html'
     model = User
@@ -141,4 +164,18 @@ class Redirect(DetailView):
             kwargs.update(self.extra_context)
         kwargs["addresses"] = kwargs['object'].address_user
         kwargs["Redirect"] = 'true'
+        kwargs['basket_items'] = {}
+        kwargs['total'] = 0
+        basket = Basket.objects.get(user=kwargs['object'])
+        for item in basket.basket_basket_items.all():
+            print(item.shop_product.price, item.counter)
+            kwargs['basket_items'][f"{item.shop_product.shop.name}"] = [
+                item.shop_product.products.name,
+                item.counter,
+                item.shop_product.price,
+                item.shop_product.price * item.counter
+            ]
+            kwargs['total'] += (item.shop_product.price * item.counter)
+        print(kwargs['basket_items'])
+        print(kwargs['total'])
         return kwargs

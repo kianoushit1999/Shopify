@@ -186,22 +186,43 @@
                         <tr>
                             <th colspan="5">Products in my basket</th>
                         </tr>
+                        <tr>
+                            <th>shopName</th>
+                            <th>Product</th>
+                            <th>Count</th>
+                            <th>Cost Of each Product</th>
+                            <th>total Price</th>
+                        </tr>
                         </thead>
                         <tbody>
-                        <tr>
-                            <th scope="row">
-                                <button type="button" class="btn btn-danger btn-rounded">Buy</button>
-                            </th>
-                            <td><i class="fas fa-cart-plus text-gray px-1"></i>dfadfas</td>
-                            <td><i class="far fa-star text-warning px-1"></i>dfasadfs</td>
-                            <td><i class="fas fa-shield-alt text-danger px-1"></i>
-                                fadsafds
-                            </td>
-                            <td>
-                                asdfdasf
-                            </td>
-                        </tr>
+                        {% for key, value in basket_items.items %}
+                            <tr class="text-center">
+                                <th scope="row">
+                                    <i class="fas fa-cart-plus text-gray px-1"></i>{{ key }}
+                                </th>
+                                <td><i class="fas fa-cube text-warning px-1"></i>{{ value.0 }}</td>
+                                <td>{{ value.1 }}</td>
+                                <td>
+                                    {{ value.2 }}<i class="fas fa-dollar-sign text-success px-1"></i>
+                                </td>
+                                <td>
+                                    {{ value.3 }}<i class="fas fa-dollar-sign text-success px-1"></i>
+                                </td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
+                        <tfoot>
+                        <tr>
+                            <th colspan="1" class="text-center"><i class="fas fa-cubes text-danger px-1"></i>Total
+                                price is
+                            </th>
+                            <th colspan="3"></th>
+                            <th class="text-center">
+                                <strong>{{ total }}</strong>
+                                <i class="fas fa-money-bill text-danger px-1"></i>
+                            </th>
+                        </tr>
+                        </tfoot>
                     </table>
                     <button type="submit" class="btn btn-block btn-info">Buy all</button>
                 </div>

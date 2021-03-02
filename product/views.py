@@ -1,11 +1,13 @@
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ImproperlyConfigured
 from django.db.models import Q, F, QuerySet
 from django.http import JsonResponse
+from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import DetailView, ListView
 from json import loads
 
-from order.models import Basket
+from order.models import Basket, BasketItems
 from .models import *
 
 
@@ -61,6 +63,7 @@ class SpecificCategories(ListView):
                 kwargs['shops'].add(shop_product.shop)
         return kwargs
 
+@method_decorator(login_required, name='dispatch')
 class OneProfuct(DetailView):
     template_name = 'single_product.html'
     model = Product
@@ -79,8 +82,8 @@ class OneProfuct(DetailView):
                                                    Q(category__exact=product.category))
         kwargs['comments'] = Comment.objects.filter(product__slug__exact=product.slug)
         kwargs['satisfaction_product'] = int(product.calc_rate*20)
-        basket = Basket.objects.get(user__pk=int(self.request.pk))
         return kwargs
+
 @csrf_exempt
 def add_comment(request):
     data = loads(request.body)
