@@ -5,6 +5,7 @@ product/__pycache__/
 shop/__pycache__/
 .idea/
 venv/
+db.sqlite3/
 Shoppify/__pycache__/
 account/migrations/__pycache__/
 order/migrations/__pycache__/
