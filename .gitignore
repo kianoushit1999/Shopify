@@ -12,3 +12,4 @@ account/migrations/__pycache__/
 order/migrations/__pycache__/
 shop/migrations/__pycache__/
 product/migrations/__pycache__/
+__pycache__/
